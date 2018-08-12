@@ -1,0 +1,70 @@
+<ion-header>
+    <ion-navbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>Sign Up</ion-title>
+    </ion-navbar>
+  </ion-header>
+
+  <ion-content scroll="true">
+   <ion-list>
+      <ion-item>
+          <ion-label color="primary">Name</ion-label>
+          <ion-input placeholder="Enter Name" [(ngModel)]="signupData.name" type="text"></ion-input>
+      </ion-item>    
+
+      <ion-item>
+          <ion-label color="primary">Surname</ion-label>
+          <ion-input placeholder="Enter Name" [(ngModel)]="signupData.surname" type="text"></ion-input>
+      </ion-item>    
+
+      <ion-item>
+          <ion-label color="primary">Gender</ion-label>
+          <ion-input placeholder="Enter Gender" [(ngModel)]="signupData.gender" type="text"></ion-input>
+      </ion-item>    
+      <ion-item>
+          <ion-label color="primary">Phone</ion-label>
+          <ion-input placeholder="Enter Phone" [(ngModel)]="signupData.phone" type="text"></ion-input>
+      </ion-item>    
+      <ion-item>
+          <ion-label color="primary">Community</ion-label>
+          <ion-input placeholder="Enter Community" [(ngModel)]="signupData.community" type="text"></ion-input>
+      </ion-item>    
+      <ion-item>
+          <ion-label color="primary">Country Id</ion-label>
+          <ion-input placeholder="Enter Country Id" [(ngModel)]="signupData.country_id" type="text"></ion-input>
+      </ion-item>    
+      <ion-item>
+          <ion-label color="primary">State Id</ion-label>
+          <ion-input placeholder="Enter State Id" [(ngModel)]="signupData.state_id" type="text"></ion-input>
+      </ion-item>    
+      <ion-item>
+          <ion-label color="primary">District Id</ion-label>
+          <ion-input placeholder="Enter District Id" [(ngModel)]="signupData.district_id" type="text"></ion-input>
+      </ion-item>    
+      <ion-item>
+          <ion-label color="primary">Email</ion-label>
+          <ion-input placeholder="Enter Email" [(ngModel)]="signupData.email" type="text"></ion-input>
+      </ion-item>    
+      <ion-item>
+          <ion-label color="primary">Password</ion-label>
+          <ion-input placeholder="Enter Password" [(ngModel)]="signupData.password" type="text"></ion-input>
+      </ion-item> 
+      
+      <ion-item>
+          <ion-label color="primary">Terms and Condition</ion-label>
+          <ion-input placeholder="Enter Condition" [(ngModel)]="signupData.termAndCondition" type="text"></ion-input>
+      </ion-item> 
+
+      <ion-item>
+          <ion-label color="primary">Open</ion-label>
+          <ion-input placeholder="Enter Open" [(ngModel)]="signupData.open_to_connect" type="text"></ion-input>
+      </ion-item> 
+    
+      <ion-item text-center>
+          <Button ion-button color="primary" (click)="signUp()">Submit</Button>
+      </ion-item>
+    
+   </ion-list>  
+  </ion-content>

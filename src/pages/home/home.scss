@@ -1,0 +1,52 @@
+page-home {
+
+ .mainContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /*max-width: 500px;*/
+    margin-left: auto;
+    margin-right: auto;
+    filter: alpha(opacity=100) !important;
+    opacity: 1.0  !important;
+  }
+
+  .noborder{
+    border-style: none;
+  }
+
+  .bold {
+    font-weight: bold;
+   }
+  
+  .transparent{
+    background-color: transparent;
+  } 	
+
+  .border{
+    border: solid 1px lightgrey;
+   }
+
+  .loader{
+    position: absolute;
+    width: 100%;
+    z-index: 999;
+    margin-top: 35%;
+    /*top: 50%;*/
+    text-align: center;
+  }
+
+  .button.button-stable.button-outline {
+    border-color: grey;
+    background: transparent;
+    color: black;
+    font-weight: bold;
+   }
+  
+   .button.button-stable.button-outline.active{
+	    background-color: grey
+	} 
+
+}
