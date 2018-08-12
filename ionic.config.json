@@ -1,0 +1,7 @@
+{
+  "name": "cre8CommLatest",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
