@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,Events } from 'ionic-angular';
 
 /**
  * Generated class for the ProductListPage page.
@@ -14,7 +14,14 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ProductListPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              public events:Events) {
+    events.subscribe('landing:data:changed',()=>{
+      console.log("landing data changed");
+      console.log("comminity is :---"+JSON.parse(localStorage.community));
+      console.log("location is :---"+JSON.parse(localStorage.location));
+    });
+    
   }
 
   ionViewDidLoad() {

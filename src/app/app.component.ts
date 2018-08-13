@@ -106,11 +106,18 @@ export class MyApp {
       this.nav.setRoot(page.component);
     }*/
   }
-  setCommunity(){
-    
-  }
-  setLocation(){
-    
+  setStorage(pageId,item){
+    if (pageId==2) {
+      localStorage.community=JSON.stringify(item);
+      this.user.community=item;
+    }
+    else if (pageId==3) {
+      localStorage.location=JSON.stringify(item);
+      this.user.location=item;
+    }
+    this.events.publish('landing:data:changed');
+    console.log("page id is :---"+pageId);
+    console.log("item is :---"+item);
   }
 }
 
