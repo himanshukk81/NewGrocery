@@ -51,7 +51,6 @@ export class LandingPage {
       this.service.showToastMessage("Please Select Location");
       return;
     }
-
     if(!this.user.community)
     {
       this.service.showToastMessage("Please Select Community");
@@ -59,8 +58,8 @@ export class LandingPage {
     }
 
     localStorage.locationCommunitySelected=true;
-    localStorage.location=this.user.location;
-    localStorage.community=this.user.community;
+    localStorage.location=JSON.stringify(this.user.location);
+    localStorage.community=JSON.stringify(this.user.community);
     localStorage.locations=JSON.stringify(this.locations);
     localStorage.communities=JSON.stringify(this.communities);
     this.events.publish('landing:data:fetched', this.communities, this.locations);

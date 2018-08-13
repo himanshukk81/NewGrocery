@@ -29,16 +29,27 @@ export class MyApp {
     });
 
     if (localStorage.locationCommunitySelected) {
-      if(JSON.parse(localStorage.locationCommunitySelected))
+      if(JSON.parse(localStorage.locationCommunitySelected)){
         this.rootPage=ProductListPage;
-      else this.rootPage=LandingPage;
-    } else this.rootPage=LandingPage;
+      }
+      else {
+        this.rootPage=LandingPage;
+      }
+    } else {
+      this.rootPage=LandingPage;
+    }
 
     if (localStorage.communities) {
       this.communities=JSON.parse(localStorage.communities);
     }
     if (localStorage.locations) {
       this.locations=JSON.parse(localStorage.locations);
+    }
+    if (localStorage.community) {
+      this.user.community=JSON.parse(localStorage.community);
+    }
+    if (localStorage.location) {
+      this.user.location=JSON.parse(localStorage.location);
     }
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -77,11 +88,11 @@ export class MyApp {
       this.nav.setRoot(page.component);
     }
     else if (page.id==6) {
-      localStorage.user=null;
-      this.pages[5].title='Login';
-      this.pages[5].icon='log-in';
-      // localStorage.clear();
-      // this.nav.setRoot(page.component);
+      // localStorage.user=null;
+      // this.pages[5].title='Login';
+      // this.pages[5].icon='log-in';
+      localStorage.clear();
+      this.nav.setRoot(LandingPage);
     }
 
 

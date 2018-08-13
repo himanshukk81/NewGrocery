@@ -17,22 +17,23 @@
   <div *ngIf="loader" class="loader" style="top: 30%">
       <ion-spinner icon="bubbles"></ion-spinner>
   </div>
+  <br/><br/><br/>
   <ion-list [hidden]="loader"> 
     <ion-item>
       <ion-label>Select Location</ion-label>
       <ion-select [(ngModel)]="user.location" >
-        <ion-option *ngFor="let location of locations;let i=index">{{location.name}}</ion-option>
+        <ion-option *ngFor="let location of locations" [value]="location">{{location.name}}</ion-option>
       </ion-select>
     </ion-item>    
 
     <ion-item>
       <ion-label>Select Community</ion-label>
       <ion-select [(ngModel)]="user.community" >
-        <ion-option *ngFor="let community of communities;let i=index">{{community.name}}</ion-option>
+        <ion-option *ngFor="let community of communities" [value]="community">{{community.name}}</ion-option>
       </ion-select>
     </ion-item> 
     <ion-item text-center>
-      <Button ion-button round outline (click)="go()">Go</Button>
+      <Button ion-button full color="secondary" (click)="go()">Go</Button>
     </ion-item>
   </ion-list>  
 </ion-content>
