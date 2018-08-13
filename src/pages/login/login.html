@@ -1,0 +1,49 @@
+<!--
+  Generated template for the LoginPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar [hidden]="true" *navbar>
+    <ion-title>login</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-item no-lines no-padding text-wrap text-center style="background-color:#D4D8D8;">
+    <img src="./assets/imgs/crea8_logo.png" style="width: 70%;">
+    <p>
+      <ion-icon name="quote"></ion-icon>
+      <span style="font-size: 16px"> For the community, By the community </span>
+      <ion-icon name="quote"></ion-icon>
+      <ion-icon name="md-close" (click)="dismiss()" style="float:right;margin-right:10px"></ion-icon>
+      <!-- <i class="ion-close" style="float: right;" ></i> -->
+    </p>
+  </ion-item>
+  <div class="button-bar" ng-if="loginOpened">
+    <button ng-class="{'active':option==1}" class="button button-stable button-outline" ng-click="changeOption(1)">LOG IN</button>
+    <button ng-class="{'active':option==2}" class="button button-stable button-outline" ng-click="changeOption(2)">Continue as Guest</button>
+  </div>
+  <ion-list padding style="border-top: none;" *ngIf="option==1">
+    <ion-item text-wrap text-center no-lines>
+      <p style="font-size: 20px;margin-bottom: 8%;padding-bottom: 1%;">Sign In</p>
+      <p>Do Not Have Account ? Click <a (click)="signUpModal()">Sign Up</a> To Registration.</p>      
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Email</ion-label>
+      <ion-input type="email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Password</ion-label>
+      <ion-input type="password"></ion-input>
+    </ion-item>
+    <br/>
+    <button ion-button large full (click)="login()" color="twitter" >
+      <ion-icon name="log-in"></ion-icon>Log in
+    </button>
+  </ion-list>
+</ion-content>

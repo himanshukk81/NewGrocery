@@ -14,11 +14,11 @@
 
 
 <ion-content padding>
-  <div *ngIf="loader" class="loader" style="top: 30%">
-      <ion-spinner icon="bubbles"></ion-spinner>
-  </div>
-  <br/><br/><br/>
-  <ion-list [hidden]="loader"> 
+  <br/><br/><br/><br/><br/><br/><br/>
+  <ion-item text-center no-lines [hidden]="!loader">
+    <ion-spinner icon="dots"></ion-spinner>
+  </ion-item>
+  <ion-list [hidden]="loader" no-lines> 
     <ion-item>
       <ion-label>Select Location</ion-label>
       <ion-select [(ngModel)]="user.location" >

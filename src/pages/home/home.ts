@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-import {SessionServiceProvider} from '../../providers/session-service/session-service'
+import {SessionService} from '../../providers/session-service/session-service'
 
 @Component({
   selector: 'page-home',
@@ -10,7 +10,7 @@ import {SessionServiceProvider} from '../../providers/session-service/session-se
 export class HomePage {
   loader:boolean=false;
   signupData:any={};		
-  constructor(public service:SessionServiceProvider,public navCtrl: NavController) {
+  constructor(public service:SessionService,public navCtrl: NavController) {
 
   }
 

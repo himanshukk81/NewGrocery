@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams,Events } from 'ionic-angular';
-import {SessionServiceProvider} from '../../providers/session-service/session-service'
+import {SessionService} from '../../providers/session-service/session-service'
 
 import {ProductListPage} from '../product-list/product-list'
 /**
@@ -19,7 +19,7 @@ export class LandingPage {
   communities:any=[];
   loader:boolean=false;
   user:any={};
-  constructor(public service:SessionServiceProvider,public navCtrl: NavController, 
+  constructor(public service:SessionService,public navCtrl: NavController, 
               public navParams: NavParams,public events:Events) {
   
   }

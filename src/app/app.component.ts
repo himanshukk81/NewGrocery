@@ -1,9 +1,10 @@
 import { Component,ViewChild } from '@angular/core';
-import { Platform ,Nav,NavController,Events} from 'ionic-angular';
+import { Platform,Nav,Events,ModalController} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { HomePage } from '../pages/home/home';
+import { RegisterPage } from '../pages/register/register';
+import { LoginPage } from '../pages/login/login';
 import { LandingPage } from '../pages/landing/landing';
 import { ProductListPage } from '../pages/product-list/product-list';
 import { AboutPage } from '../pages/about/about';
@@ -21,7 +22,10 @@ export class MyApp {
   communities:any=[];
   loader:boolean=false;
   user:any={};
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,public events:Events) {
+  loginOpened:boolean=false;
+  signupOpened:boolean=false;
+  constructor(platform: Platform, statusBar: StatusBar,
+     splashScreen: SplashScreen,public events:Events,public modal:ModalController) {
     events.subscribe('landing:data:fetched', (communitiesData, locations) => {
       // user and time are the same arguments passed in `events.publish(user, time)`
       this.communities=communitiesData;
@@ -73,6 +77,10 @@ export class MyApp {
     }
   }
 
+  ionViewDidLoad() {
+    this.openLogin();
+  }
+
   openSlide(index){
     console.log(index);
     for (var i = 0; i < this.pages.length; ++i) {
@@ -88,23 +96,14 @@ export class MyApp {
       this.nav.setRoot(page.component);
     }
     else if (page.id==6) {
-      // localStorage.user=null;
-      // this.pages[5].title='Login';
-      // this.pages[5].icon='log-in';
-      localStorage.clear();
-      this.nav.setRoot(LandingPage);
+      // this.openLogin();
+      this.openRegister();
+      /*localStorage.user=null;
+      this.pages[5].title='Login';
+      this.pages[5].icon='log-in';*/
+      // localStorage.clear();
+      // this.nav.setRoot(LandingPage);
     }
-
-
-    /*if(page.title=='Logout' || page.title=='Login')
-    {
-      localStorage.clear();
-      this.nav.setRoot(page.component);
-    }
-    else
-    {
-      this.nav.setRoot(page.component);
-    }*/
   }
   setStorage(pageId,item){
     if (pageId==2) {
@@ -116,8 +115,25 @@ export class MyApp {
       this.user.location=item;
     }
     this.events.publish('landing:data:changed');
-    console.log("page id is :---"+pageId);
-    console.log("item is :---"+item);
+    /*console.log("page id is :---"+pageId);
+    console.log("item is :---"+item);*/
+  }
+  openLogin(){
+    let loginModal=this.modal.create(LoginPage,{ userId: 8675309 });
+    loginModal.onDidDismiss((data) => {
+      console.log(data);
+      if (data===2) {
+        this.openRegister();
+      }
+    });
+    loginModal.present();
+  }
+  openRegister(){
+    let registerModal=this.modal.create(RegisterPage,{ userId: 8675309 });
+    registerModal.onDidDismiss((data) => {
+      console.log(data);
+    });
+    registerModal.present();
   }
 }
 

@@ -5,20 +5,21 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
+import { RegisterPage } from '../pages/register/register';
+import { LoginPage } from '../pages/login/login';
 import { LandingPage } from '../pages/landing/landing';
 import { AboutPage } from '../pages/about/about';
 import { ContactUsPage } from '../pages/contact-us/contact-us';
 import { ProductListPage } from '../pages/product-list/product-list';
 
-import { SessionServiceProvider } from '../providers/session-service/session-service';
+import { SessionService } from '../providers/session-service/session-service';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
-    LandingPage,ProductListPage,ContactUsPage,AboutPage
+    RegisterPage,
+    LandingPage,ProductListPage,ContactUsPage,AboutPage,LoginPage
   ],
   imports: [
     BrowserModule,
@@ -29,15 +30,15 @@ import { HttpClientModule } from '@angular/common/http';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
+    RegisterPage,
     LandingPage,
-    ProductListPage,ContactUsPage,AboutPage
+    ProductListPage,ContactUsPage,AboutPage,LoginPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    SessionServiceProvider
+    SessionService
   ]
 })
 export class AppModule {}

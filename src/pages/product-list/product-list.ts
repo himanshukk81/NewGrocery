@@ -15,13 +15,12 @@ import { IonicPage, NavController, NavParams,Events } from 'ionic-angular';
 export class ProductListPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              public events:Events) {
+              public events: Events) {
     events.subscribe('landing:data:changed',()=>{
       console.log("landing data changed");
       console.log("comminity is :---"+JSON.parse(localStorage.community));
       console.log("location is :---"+JSON.parse(localStorage.location));
     });
-    
   }
 
   ionViewDidLoad() {

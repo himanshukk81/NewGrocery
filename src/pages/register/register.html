@@ -1,0 +1,81 @@
+<ion-header>
+    <ion-navbar >
+      <ion-title>Sign Up</ion-title>
+      <ion-buttons end>
+        <button ion-button icon-only color="royal" (click)="dismiss()">
+          <ion-icon name="close-circle"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-navbar>
+  </ion-header>
+
+  <ion-content scroll="true" padding>
+   <ion-list>
+      <ion-item style="border-top:none;">
+        <ion-label stacked>Name</ion-label>
+        <ion-input placeholder="Enter Name" [(ngModel)]="signupData.name" type="text"></ion-input>
+      </ion-item> 
+
+      <ion-item>
+        <ion-label stacked>Last Name</ion-label>
+        <ion-input placeholder="Enter Name" [(ngModel)]="signupData.surname" type="text"></ion-input>
+      </ion-item>    
+      <ion-item>
+        <p style="font-size: medium;">
+          <span style="margin-right: 10%;">Gender</span>
+          <input type="radio" value="Male" [(ngModel)]="signupData.gender"> Male
+          <input type="radio" value="Female" [(ngModel)]="signupData.gender"> Female
+        </p>
+      </ion-item>    
+      <ion-item>
+        <ion-label stacked>Phone</ion-label>
+        <ion-input placeholder="Enter Phone" [(ngModel)]="signupData.phone" type="phone"></ion-input>
+      </ion-item> 
+      <ion-item>
+        <ion-label stacked>Select Community</ion-label>
+        <ion-select [(ngModel)]="signupData.community" >
+          <ion-option *ngFor="let community of communities" [value]="community.id">{{community.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Select Country</ion-label>
+        <ion-select [(ngModel)]="signupData.country_id" (ngModelChange)="getStates($event)">
+          <ion-option *ngFor="let country of countries" [value]="country.id">{{country.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item *ngIf="stateFound">
+        <ion-label stacked>Select State</ion-label>
+        <ion-select [(ngModel)]="signupData.state_id" (ngModelChange)="getCities($event)">
+          <ion-option *ngFor="let state of states" [value]="state.id">{{state.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item *ngIf="cityFound">
+        <ion-label stacked>Select City</ion-label>
+        <ion-select [(ngModel)]="signupData.district_id">
+          <ion-option *ngFor="let city of cities" [value]="city.id">{{city.name}}</ion-option>
+        </ion-select>
+      </ion-item>   
+      <ion-item>
+        <ion-label stacked>Email</ion-label>
+        <ion-input placeholder="Enter Email" [(ngModel)]="signupData.email" type="email"></ion-input>
+      </ion-item>    
+      <ion-item>
+        <ion-label stacked>Password</ion-label>
+        <ion-input placeholder="Enter Password" [(ngModel)]="signupData.password" type="password"></ion-input>
+      </ion-item> 
+      <ion-item>
+        <ion-label stacked>Confirm Password</ion-label>
+        <ion-input placeholder="COnfirm your password" [(ngModel)]="signupData.cPassword" type="text"></ion-input>
+      </ion-item><br/>
+      <ion-item>
+        <ion-label>I have read & agree to the T&C and Privacy Policy</ion-label>
+        <ion-checkbox color="secondary" [(ngModel)]="signupData.termAndCondition"></ion-checkbox>
+      </ion-item><br/> 
+      <ion-item>
+        <ion-label>I want other communities to connect with me </ion-label>
+        <ion-checkbox color="secondary" [(ngModel)]="signupData.open_to_connect"></ion-checkbox>
+      </ion-item><br/>
+      <Button ion-button full large color="dark" (click)="signUp()">Submit</Button>
+      <br/><br/>
+   </ion-list>  
+  </ion-content>
