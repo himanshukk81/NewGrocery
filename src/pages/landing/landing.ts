@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams,Events } from 'ionic-angular';
 import {SessionServiceProvider} from '../../providers/session-service/session-service'
 
 import {ProductListPage} from '../product-list/product-list'
@@ -19,7 +19,8 @@ export class LandingPage {
   communities:any=[];
   loader:boolean=false;
   user:any={};
-  constructor(public service:SessionServiceProvider,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public service:SessionServiceProvider,public navCtrl: NavController, 
+              public navParams: NavParams,public events:Events) {
   
   }
 
@@ -60,8 +61,9 @@ export class LandingPage {
     localStorage.locationCommunitySelected=true;
     localStorage.location=this.user.location;
     localStorage.community=this.user.community;
-    localStorage.locations=this.locations;
-    localStorage.communities=this.communities;
+    localStorage.locations=JSON.stringify(this.locations);
+    localStorage.communities=JSON.stringify(this.communities);
+    this.events.publish('landing:data:fetched', this.communities, this.locations);
     this.navCtrl.setRoot(ProductListPage);
   }
 

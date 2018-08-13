@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar [hidden]="true" *navbar>
     <ion-title>Landing</ion-title>
   </ion-navbar>
 
@@ -19,17 +19,17 @@
   </div>
   <ion-list [hidden]="loader"> 
     <ion-item>
-        <ion-label>Select Location</ion-label>
-        <ion-select [(ngModel)]="user.location" >
-          <ion-option *ngFor="let location of locations;let i=index">{{location.name}}</ion-option>
-        </ion-select>
+      <ion-label>Select Location</ion-label>
+      <ion-select [(ngModel)]="user.location" >
+        <ion-option *ngFor="let location of locations;let i=index">{{location.name}}</ion-option>
+      </ion-select>
     </ion-item>    
 
     <ion-item>
-        <ion-label>Select Community</ion-label>
-        <ion-select [(ngModel)]="user.community" >
-          <ion-option *ngFor="let community of communities;let i=index">{{community.name}}</ion-option>
-        </ion-select>
+      <ion-label>Select Community</ion-label>
+      <ion-select [(ngModel)]="user.community" >
+        <ion-option *ngFor="let community of communities;let i=index">{{community.name}}</ion-option>
+      </ion-select>
     </ion-item> 
     <ion-item text-center>
       <Button ion-button round outline (click)="go()">Go</Button>

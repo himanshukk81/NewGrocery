@@ -7,6 +7,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LandingPage } from '../pages/landing/landing';
+import { AboutPage } from '../pages/about/about';
+import { ContactUsPage } from '../pages/contact-us/contact-us';
 import { ProductListPage } from '../pages/product-list/product-list';
 
 import { SessionServiceProvider } from '../providers/session-service/session-service';
@@ -16,7 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
   declarations: [
     MyApp,
     HomePage,
-    LandingPage,ProductListPage
+    LandingPage,ProductListPage,ContactUsPage,AboutPage
   ],
   imports: [
     BrowserModule,
@@ -29,7 +31,7 @@ import { HttpClientModule } from '@angular/common/http';
     MyApp,
     HomePage,
     LandingPage,
-    ProductListPage
+    ProductListPage,ContactUsPage,AboutPage
   ],
   providers: [
     StatusBar,
