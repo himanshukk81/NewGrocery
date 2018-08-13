@@ -27,10 +27,12 @@ export class MyApp {
       this.communities=communitiesData;
       this.locations=locations;
     });
-    
-    if(localStorage.locationCommunitySelected)
-      this.rootPage=ProductListPage;
-    else this.rootPage=LandingPage;
+
+    if (localStorage.locationCommunitySelected) {
+      if(JSON.parse(localStorage.locationCommunitySelected))
+        this.rootPage=ProductListPage;
+      else this.rootPage=LandingPage;
+    } else this.rootPage=LandingPage;
 
     if (localStorage.communities) {
       this.communities=JSON.parse(localStorage.communities);
@@ -45,15 +47,18 @@ export class MyApp {
       splashScreen.hide();
     });
     this.pages = [
-      { id:1,title: 'Login',icon:"log-in" },
+      { id:1,title: 'Home', component: ProductListPage,icon:"cart"},
       { id:2,title: 'Community',icon:"aperture",array:this.communities},
       { id:3,title: 'Location',icon:"pin",array:this.locations},
       { id:4,title: 'Contact Us', component: ContactUsPage,icon:"chatbubbles"},
       { id:5,title: 'About Us', component: AboutPage,icon:"document"},
+      { id:6,title: 'Login',icon:"log-in" },
     ];
     if (localStorage.user) {
-      this.pages[0].title='Logout';
-      this.pages[0].icon='log-out';
+      if (JSON.parse(localStorage.user)) {
+        this.pages[5].title='Logout';
+        this.pages[5].icon='log-out';
+      }
     }
   }
 
@@ -71,11 +76,15 @@ export class MyApp {
     if (page.component) { 
       this.nav.setRoot(page.component);
     }
-    else if (page.id==1) {
+    else if (page.id==6) {
       localStorage.user=null;
-      this.pages[0].title='Login';
-      this.pages[0].icon='log-in';
+      this.pages[5].title='Login';
+      this.pages[5].icon='log-in';
+      // localStorage.clear();
+      // this.nav.setRoot(page.component);
     }
+
+
     /*if(page.title=='Logout' || page.title=='Login')
     {
       localStorage.clear();
@@ -85,6 +94,12 @@ export class MyApp {
     {
       this.nav.setRoot(page.component);
     }*/
+  }
+  setCommunity(){
+    
+  }
+  setLocation(){
+    
   }
 }
 
