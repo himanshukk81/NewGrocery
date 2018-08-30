@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,Events } from 'ionic-angular';
+import { NavController, NavParams,Events } from 'ionic-angular';
 
 /**
  * Generated class for the ProductListPage page.
@@ -13,9 +13,10 @@ import { IonicPage, NavController, NavParams,Events } from 'ionic-angular';
   templateUrl: 'product-list.html',
 })
 export class ProductListPage {
-
+  cartValue:number;
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public events: Events) {
+    this.cartValue=0;
     events.subscribe('landing:data:changed',()=>{
       console.log("landing data changed");
       console.log("comminity is :---"+JSON.parse(localStorage.community));

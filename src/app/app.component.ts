@@ -115,8 +115,6 @@ export class MyApp {
       this.user.location=item;
     }
     this.events.publish('landing:data:changed');
-    /*console.log("page id is :---"+pageId);
-    console.log("item is :---"+item);*/
   }
   openLogin(){
     let loginModal=this.modal.create(LoginPage,{ userId: 8675309 });

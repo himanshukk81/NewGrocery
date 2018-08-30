@@ -27,21 +27,21 @@ export class LandingPage {
   ionViewDidLoad() {
     this.loader=true;
      // console.log('ionViewDidLoad LandingPage');
-     this.service.getOperatingLocations().subscribe((locationData)=>{
-       this.locations=locationData;
-       this.service.getCommunities().subscribe((communitiesData)=>{
+    this.service.getOperatingLocations().subscribe((locationData)=>{
+      this.locations=locationData;
+      this.service.getCommunities().subscribe((communitiesData)=>{
         this.communities=communitiesData;
         this.loader=false;
       },(err)=>{
         console.log("Error data===="+err);
         this.loader=false;
         this.service.showToastMessage("Please try again");
-      })     
-     },(err)=>{
-       console.log("Error data===="+err);
-       this.loader=false;
-       this.service.showToastMessage("Please try again");
-     })
+      })
+    },(err)=>{
+      console.log("Error data===="+err);
+      this.loader=false;
+      this.service.showToastMessage("Please try again");
+    })
   }
 
   go()

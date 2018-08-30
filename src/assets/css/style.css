@@ -1,0 +1,82 @@
+.checkbox-ios-danger .checkbox-checked {
+  border-color: #990100;
+  background-color: #990100;
+}
+.bar-button-danger-ios, .bar-button-default.bar-button-ios-danger, 
+.bar-button-clear-ios-danger {
+    color: #990100;
+    background-color: transparent;
+}
+.button-ios-danger {
+    color: #fff;
+    background-color: #990100;
+}
+.toolbar-ios-danger .toolbar-background-ios {
+    background: #990100;
+}
+.toolbar-ios-danger .bar-button-danger-ios, 
+.toolbar-ios-danger .bar-button-default.bar-button-ios-danger, 
+.toolbar-ios-danger .bar-button-clear-ios-danger {
+    color: white;
+    background-color: transparent;
+}
+.label-ios[stacked] {
+    margin-bottom: 4px;
+    font-size: 1.5rem;
+}
+.icon-ios-danger {
+    color: #990100;
+}
+.text-input::-webkit-input-placeholder {
+  text-indent: 0;
+  /*color: red;*/
+  font-size: 1.2rem
+}
+.menu-list > .item-block:first-child {
+    border-top: none;
+}
+.menu-list > .item-block:last-child, 
+.menu-list > .item-wrapper:last-child .item-block{
+	border-bottom: none;
+}
+.toolbar-md-danger .bar-button-danger-md,
+.toolbar-md-danger .bar-button-clear-md-danger, 
+.toolbar-md-danger .bar-button-md-danger {
+    color: white;
+    background-color: transparent;
+}
+.toolbar-title {
+  color: white;
+  font-size: 1.7rem;
+  font-weight: 600;
+}
+#cart-btn {
+   position: relative;
+   margin-left: 10px;
+    margin-right: 12px;
+}
+
+#cart-badge {
+   position: absolute;
+    top: -4px;
+    right: -13px;
+    background: red;
+}
+
+@-webkit-keyframes shake {
+    0%, 100% {-webkit-transform: translateX(0);} 
+    10%, 30%, 50%, 70%, 90% {-webkit-transform: translateX(-10px);} 
+    20%, 40%, 60%, 80% {-webkit-transform: translateX(10px);} 
+ }
+ 
+ @keyframes shake { 
+    0%, 100% {transform: translateX(0);} 
+    10%, 30%, 50%, 70%, 90% {transform: translateX(-10px);} 
+    20%, 40%, 60%, 80% {transform: translateX(10px);} 
+ }
+ 
+ .shake { 
+    -webkit-animation-name: shake; 
+    animation-name: shake; 
+ }
+ 
