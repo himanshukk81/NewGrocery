@@ -85,9 +85,9 @@ export class RegisterPage {
       this.service.showToastMessage('Please select your gender');
       return;
     }
-    if(!this.signupData.phone)
+    if((!this.signupData.phone) || (this.signupData.phone.length != 10))
     {
-      this.service.showToastMessage('Please enter your mobile number');
+      this.service.showToastMessage('Please enter a valid mobile number');
       return;
     }
     if(!this.signupData.community)
@@ -136,14 +136,32 @@ export class RegisterPage {
       this.service.showToastMessage('Please check term and condition');
       return;
     }
-    /*this.service.createUser(this.signupData)
+    this.loader=true;
+    this.service.createUser(this.signupData)
     .subscribe((data)=>{
-      this.service.showToastMessage("Successfully Add User");
-      console.log("Data==="+data);
+      this.loader=false;
+      this.service.showToastMessage("Registraion Success . . .");
+      this.view.dismiss("success");
+      console.log("Data==="+JSON.stringify(data));
     },(err)=>{
-      console.log("err==="+err);
+      // this.loader=false;
+      console.log("err==="+JSON.stringify(err));
       this.service.showToastMessage("Please Try Again");
-    })*/  
+    })  
   }
-
+  validatePhone(){
+    if (isNaN(this.signupData.phone)) {
+      let phoneTimeout = setTimeout( () => {
+        this.signupData.phone='';
+      }, 100);
+      this.service.showToastMessage("Please enter valid number...");
+      return;
+    } else{
+      if (this.signupData.phone.length>10) {
+        let phoneTimeout = setTimeout( () => {
+          this.signupData.phone=this.signupData.phone.slice(0,10);
+        }, 100);
+      }
+    }
+  }
 }

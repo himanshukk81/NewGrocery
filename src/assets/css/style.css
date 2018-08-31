@@ -1,4 +1,5 @@
-.checkbox-ios-danger .checkbox-checked {
+.checkbox-ios-danger .checkbox-checked,
+.checkbox-md-danger .checkbox-checked {
   border-color: #990100;
   background-color: #990100;
 }
@@ -7,7 +8,11 @@
     color: #990100;
     background-color: transparent;
 }
-.button-ios-danger {
+.icon-md-danger {
+    color: #990100;
+}
+.button-ios-danger,.button-md-danger,
+.toolbar-md-danger .toolbar-background-md {
     color: #fff;
     background-color: #990100;
 }
@@ -20,9 +25,10 @@
     color: white;
     background-color: transparent;
 }
-.label-ios[stacked] {
+.label-ios[stacked],.label-md[stacked], .label-md[floating] {
     margin-bottom: 4px;
     font-size: 1.5rem;
+    color: black;
 }
 .icon-ios-danger {
     color: #990100;
@@ -78,5 +84,8 @@
  .shake { 
     -webkit-animation-name: shake; 
     animation-name: shake; 
+}
+.segment-ios-dark .segment-button{
+		height: 4.5rem;
+  	line-height: 4.3rem;
  }
- 

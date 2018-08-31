@@ -21,29 +21,33 @@
       <span style="font-size: 16px"> For the community, By the community </span>
       <ion-icon name="quote"></ion-icon>
       <ion-icon name="md-close" (click)="dismiss()" style="float:right;margin-right:10px"></ion-icon>
-      <!-- <i class="ion-close" style="float: right;" ></i> -->
     </p>
   </ion-item>
-  <div class="button-bar" ng-if="loginOpened">
-    <button ng-class="{'active':option==1}" class="button button-stable button-outline" ng-click="changeOption(1)">LOG IN</button>
-    <button ng-class="{'active':option==2}" class="button button-stable button-outline" ng-click="changeOption(2)">Continue as Guest</button>
-  </div>
+  <ion-segment [(ngModel)]="option" color="dark" (ionChange)="changeOption()">
+    <ion-segment-button value="1" >
+      LOG IN
+    </ion-segment-button>
+    <ion-segment-button value="2" >
+      Continue as Guest
+    </ion-segment-button>
+  </ion-segment>
   <ion-list padding style="border-top: none;" *ngIf="option==1">
     <ion-item text-wrap text-center no-lines>
       <p style="font-size: 20px;margin-bottom: 8%;padding-bottom: 1%;">Sign In</p>
       <p>Do Not Have Account ? Click <a (click)="signUpModal()">Sign Up</a> To Registration.</p>      
     </ion-item>
-    <ion-item>
+    <ion-item style="padding-left:0">
       <ion-label stacked>Email</ion-label>
-      <ion-input type="email"></ion-input>
+      <ion-input type="email" placeholder="Enter the email ID" [(ngModel)]="loginData.email"></ion-input>
     </ion-item>
-    <ion-item>
+    <ion-item style="padding-left:0">
       <ion-label stacked>Password</ion-label>
-      <ion-input type="password"></ion-input>
+      <ion-input type="password" placeholder="Enter your password" [(ngModel)]="loginData.password"></ion-input>
     </ion-item>
     <br/>
-    <button ion-button large full (click)="login()" color="twitter" >
-      <ion-icon name="log-in"></ion-icon>Log in
+    <button ion-button large full (click)="login()" color="dark" icon-left>
+      <ion-icon name="log-in"></ion-icon>
+      <span>Log in</span>
     </button>
   </ion-list>
 </ion-content>

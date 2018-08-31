@@ -9,6 +9,7 @@ import { LandingPage } from '../pages/landing/landing';
 import { ProductListPage } from '../pages/product-list/product-list';
 import { AboutPage } from '../pages/about/about';
 import { ContactUsPage } from '../pages/contact-us/contact-us';
+import {SessionService} from '../providers/session-service/session-service'
 
 @Component({
   templateUrl: 'app.html'
@@ -24,8 +25,9 @@ export class MyApp {
   user:any={};
   loginOpened:boolean=false;
   signupOpened:boolean=false;
-  constructor(platform: Platform, statusBar: StatusBar,
-     splashScreen: SplashScreen,public events:Events,public modal:ModalController) {
+  signup:boolean=false;
+  constructor(platform: Platform, statusBar: StatusBar,public service:SessionService,
+    splashScreen: SplashScreen,public events:Events,public modal:ModalController) {
     events.subscribe('landing:data:fetched', (communitiesData, locations) => {
       // user and time are the same arguments passed in `events.publish(user, time)`
       this.communities=communitiesData;
@@ -55,6 +57,11 @@ export class MyApp {
     if (localStorage.location) {
       this.user.location=JSON.parse(localStorage.location);
     }
+    if (JSON.parse(localStorage.user)) {
+      localStorage.user=JSON.parse(localStorage.user);
+      this.user=localStorage.user;
+    }
+    // this.openRegister();
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -94,13 +101,14 @@ export class MyApp {
   {
     if (page.component) { 
       this.nav.setRoot(page.component);
-    }
-    else if (page.id==6) {
-      // this.openLogin();
-      this.openRegister();
-      /*localStorage.user=null;
+    } else if ((page.id==6) && !(localStorage.user)) {
+      // this.openRegister();
+      this.openLogin();
+    } else {
+      this.openLogin();
+      localStorage.user=null;
       this.pages[5].title='Login';
-      this.pages[5].icon='log-in';*/
+      this.pages[5].icon='log-in';
       // localStorage.clear();
       // this.nav.setRoot(LandingPage);
     }
@@ -118,10 +126,20 @@ export class MyApp {
   }
   openLogin(){
     let loginModal=this.modal.create(LoginPage,{ userId: 8675309 });
-    loginModal.onDidDismiss((data) => {
-      console.log(data);
-      if (data===2) {
+    loginModal.onDidDismiss((response) => {
+      console.log(response);
+      if (response===2) {
         this.openRegister();
+      } else {
+        this.user=response.data;
+        localStorage.user=response.data;
+        localStorage.user.token=response.token;
+        this.service.setUser(localStorage.user);
+        if (!this.signup) 
+        {
+          this.service.showToastMessage(response.data.message);
+        }
+        this.events.publish('get:login');
       }
     });
     loginModal.present();
@@ -129,6 +147,9 @@ export class MyApp {
   openRegister(){
     let registerModal=this.modal.create(RegisterPage,{ userId: 8675309 });
     registerModal.onDidDismiss((data) => {
+      if (data==="success") {
+        this.openLogin();
+      }
       console.log(data);
     });
     registerModal.present();

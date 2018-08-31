@@ -8,6 +8,11 @@
 
   <ion-content>
     <ion-list>
+      <ion-item text-wrap text-center no-margin style="background: #990100;">
+        <img src="assets/imgs/tree.png" style="height:120px">
+        <h3 class="title" style="font-size:17px;color:cornsilk;"> Welcome Guest
+        </h3>
+      </ion-item>
       <ion-item no-padding text-wrap *ngFor="let p of pages;let i=index">
         <button ion-item no-lines (click)="openPage(p)" detail-none style="    padding-right: 10px;" menuClose>
           <ion-icon name="{{p.icon}}" item-start color="danger"></ion-icon>

@@ -10,68 +10,76 @@
 </ion-header>
 
 <ion-content scroll="true" padding>
-  <ion-list>
-    <ion-item style="border-top:none;">
+  <ion-list [hidden]="!loader" no-padding no-margin no-lines>
+    <br/><br/><br/><br/><br/><br/><br/>
+    <ion-item text-center no-lines>
+      <ion-spinner icon="dots"></ion-spinner>
+    </ion-item>
+  </ion-list>
+  <ion-list [hidden]="loader">
+    <ion-item style="border-top:none;" no-padding>
       <ion-label stacked>Name</ion-label>
       <ion-input placeholder="Enter Name" [(ngModel)]="signupData.name" type="text"></ion-input>
-    </ion-item> 
-
-    <ion-item>
+    </ion-item>
+    <ion-item no-padding>
       <ion-label stacked>Last Name</ion-label>
       <ion-input placeholder="Enter Name" [(ngModel)]="signupData.surname" type="text"></ion-input>
     </ion-item>    
-    <ion-item>
+    <ion-item no-padding>
       <p style="font-size: medium;">
         <span style="margin-right: 10%;">Gender</span>
         <input type="radio" value="Male" [(ngModel)]="signupData.gender"> Male
         <input type="radio" value="Female" [(ngModel)]="signupData.gender"> Female
       </p>
     </ion-item>    
-    <ion-item>
+    <ion-item no-padding>
       <ion-label stacked>Phone</ion-label>
-      <ion-input placeholder="Enter Phone" [(ngModel)]="signupData.phone" type="phone"></ion-input>
+      <ion-input placeholder="Enter Phone" [(ngModel)]="signupData.phone" type="text" 
+      (ngModelChange)="validatePhone()"></ion-input>
     </ion-item> 
-    <ion-item>
+    <ion-item no-padding>
       <ion-label stacked>Select Community</ion-label>
-      <ion-select [(ngModel)]="signupData.community" >
+      <ion-select [(ngModel)]="signupData.community" placeholder="Select">
         <ion-option *ngFor="let community of communities" [value]="community.id">{{community.name}}</ion-option>
       </ion-select>
     </ion-item>
-    <ion-item>
+    <ion-item no-padding>
       <ion-label stacked>Select Country</ion-label>
-      <ion-select [(ngModel)]="signupData.country_id" (ngModelChange)="getStates($event)">
+      <ion-select [(ngModel)]="signupData.country_id" (ngModelChange)="getStates($event)"
+      placeholder="Select">
         <ion-option *ngFor="let country of countries" [value]="country.id">{{country.name}}</ion-option>
       </ion-select>
     </ion-item>
-    <ion-item *ngIf="stateFound">
+    <ion-item *ngIf="stateFound" no-padding>
       <ion-label stacked>Select State</ion-label>
-      <ion-select [(ngModel)]="signupData.state_id" (ngModelChange)="getCities($event)">
+      <ion-select [(ngModel)]="signupData.state_id" (ngModelChange)="getCities($event)"
+      placeholder="Select">
         <ion-option *ngFor="let state of states" [value]="state.id">{{state.name}}</ion-option>
       </ion-select>
     </ion-item>
-    <ion-item *ngIf="cityFound">
+    <ion-item *ngIf="cityFound" no-padding>
       <ion-label stacked>Select City</ion-label>
-      <ion-select [(ngModel)]="signupData.district_id">
+      <ion-select [(ngModel)]="signupData.district_id" placeholder="Select">
         <ion-option *ngFor="let city of cities" [value]="city.id">{{city.name}}</ion-option>
       </ion-select>
     </ion-item>   
-    <ion-item>
+    <ion-item no-padding>
       <ion-label stacked>Email</ion-label>
       <ion-input placeholder="Enter Email" [(ngModel)]="signupData.email" type="email"></ion-input>
     </ion-item>    
-    <ion-item>
+    <ion-item no-padding>
       <ion-label stacked>Password</ion-label>
       <ion-input placeholder="Enter Password" [(ngModel)]="signupData.password" type="password"></ion-input>
     </ion-item> 
-    <ion-item>
+    <ion-item no-padding>
       <ion-label stacked>Confirm Password</ion-label>
       <ion-input placeholder="Confirm your password" [(ngModel)]="signupData.cPassword" type="text"></ion-input>
     </ion-item><br/>
-    <ion-item text-wrap>
+    <ion-item text-wrap no-padding>
       <ion-label>I have read & agree to the T&C and Privacy Policy</ion-label>
       <ion-checkbox color="danger" [(ngModel)]="signupData.termAndCondition"></ion-checkbox>
     </ion-item><br/> 
-    <ion-item text-wrap>
+    <ion-item text-wrap no-padding>
       <ion-label>I want other communities to connect with me </ion-label>
       <ion-checkbox color="danger" [(ngModel)]="signupData.open_to_connect"></ion-checkbox>
     </ion-item><br/>

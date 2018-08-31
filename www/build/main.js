@@ -260,10 +260,10 @@ var ProductListPage = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-product-list',template:/*ion-inline-start:"D:\ionic-3\cre8comm\src\pages\product-list\product-list.html"*/'<ion-header>\n\n  <ion-navbar color="danger" align-title="left" >\n\n    <button ion-button menuToggle>\n\n      <ion-icon name="menu"></ion-icon>\n\n    </button>\n\n    <ion-title mode="android">Product List</ion-title>\n\n    <ion-buttons end>\n\n      <button ion-button icon-only>\n\n        <ion-icon name="search"></ion-icon>\n\n      </button>\n\n      <button ion-button icon-only id="cart-btn">\n\n        <ion-badge color="danger" id="cart-badge" class="shake">{{cartValue}}</ion-badge>\n\n        <ion-icon name="cart" ></ion-icon>\n\n      </button>\n\n      <button ion-button icon-only>\n\n        <ion-icon name="funnel"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n\n\n</ion-content>\n\n'/*ion-inline-end:"D:\ionic-3\cre8comm\src\pages\product-list\product-list.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* Events */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* Events */]) === "function" && _c || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* Events */]])
     ], ProductListPage);
     return ProductListPage;
-    var _a, _b, _c;
 }());
 
 //# sourceMappingURL=product-list.js.map
@@ -367,6 +367,7 @@ var ContactUsPage = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_session_service_session_service__ = __webpack_require__(135);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -378,6 +379,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 /**
  * Generated class for the LoginPage page.
  *
@@ -385,11 +387,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Ionic pages and navigation.
  */
 var LoginPage = /** @class */ (function () {
-    function LoginPage(navCtrl, params, view) {
+    function LoginPage(navCtrl, params, view, events, service) {
         this.navCtrl = navCtrl;
         this.params = params;
         this.view = view;
-        this.option = 1;
+        this.events = events;
+        this.service = service;
+        this.option = "1";
+        this.loginOpened = false;
+        this.loginData = {};
+        this.loader = false;
         console.log(this.params.get('userId'));
     }
     LoginPage.prototype.ionViewDidLoad = function () {
@@ -399,18 +406,63 @@ var LoginPage = /** @class */ (function () {
         this.view.dismiss("Login Modal closed");
     };
     LoginPage.prototype.login = function () {
+        var _this = this;
+        if (!this.loginData.email) {
+            this.service.showToastMessage("Please enter your email");
+            return;
+        }
+        if (!this.loginData.password) {
+            this.service.showToastMessage("Please enter your password");
+            return;
+        }
+        this.loader = true;
+        this.service.doLogin(this.loginData)
+            .subscribe(function (response) {
+            console.log("Data===" + JSON.stringify(response));
+            _this.loader = false;
+            if (response.status == 1) {
+                _this.service.showToastMessage("Login Success . . .");
+                _this.service.setLogin(true);
+                _this.view.dismiss(response);
+                _this.service.updateDeviceToken({
+                    "token": localStorage.user.token,
+                    "notification_type": _this.service.getNotificationType(),
+                    "device_token": _this.service.getDeviceToken()
+                }).subscribe(function (response) {
+                    console.log("err===" + JSON.stringify(response));
+                }), function (err) {
+                    console.log("err===" + JSON.stringify(err));
+                    // this.service.showToastMessage("Invalid Credentials . . .");
+                };
+            }
+            else {
+                _this.service.showToastMessage(response.data.message);
+            }
+        }, function (err) {
+            // this.loader=false;
+            console.log("err===" + JSON.stringify(err));
+            _this.service.showToastMessage("Invalid Credentials . . .");
+        });
+    };
+    LoginPage.prototype.changeOption = function (value) {
+        if (this.option == 2) {
+            this.service.setAsGuest(true);
+            this.loginOpened = false;
+            this.events.publish('login:successfull');
+            this.view.dismiss("Login Modal closed");
+        }
     };
     LoginPage.prototype.signUpModal = function () {
         this.view.dismiss(2);
     };
     LoginPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-login',template:/*ion-inline-start:"D:\ionic-3\cre8comm\src\pages\login\login.html"*/'<!--\n  Generated template for the LoginPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar [hidden]="true" *navbar>\n    <ion-title>login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <ion-item no-lines no-padding text-wrap text-center style="background-color:#D4D8D8;">\n    <img src="./assets/imgs/crea8_logo.png" style="width: 70%;">\n    <p>\n      <ion-icon name="quote"></ion-icon>\n      <span style="font-size: 16px"> For the community, By the community </span>\n      <ion-icon name="quote"></ion-icon>\n      <ion-icon name="md-close" (click)="dismiss()" style="float:right;margin-right:10px"></ion-icon>\n      <!-- <i class="ion-close" style="float: right;" ></i> -->\n    </p>\n  </ion-item>\n  <div class="button-bar" ng-if="loginOpened">\n    <button ng-class="{\'active\':option==1}" class="button button-stable button-outline" ng-click="changeOption(1)">LOG IN</button>\n    <button ng-class="{\'active\':option==2}" class="button button-stable button-outline" ng-click="changeOption(2)">Continue as Guest</button>\n  </div>\n  <ion-list padding style="border-top: none;" *ngIf="option==1">\n    <ion-item text-wrap text-center no-lines>\n      <p style="font-size: 20px;margin-bottom: 8%;padding-bottom: 1%;">Sign In</p>\n      <p>Do Not Have Account ? Click <a (click)="signUpModal()">Sign Up</a> To Registration.</p>      \n    </ion-item>\n    <ion-item>\n      <ion-label stacked>Email</ion-label>\n      <ion-input type="email"></ion-input>\n    </ion-item>\n    <ion-item>\n      <ion-label stacked>Password</ion-label>\n      <ion-input type="password"></ion-input>\n    </ion-item>\n    <br/>\n    <button ion-button large full (click)="login()" color="twitter" >\n      <ion-icon name="log-in"></ion-icon>Log in\n    </button>\n  </ion-list>\n</ion-content>\n'/*ion-inline-end:"D:\ionic-3\cre8comm\src\pages\login\login.html"*/,
+            selector: 'page-login',template:/*ion-inline-start:"D:\ionic-3\cre8comm\src\pages\login\login.html"*/'<!--\n  Generated template for the LoginPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar [hidden]="true" *navbar>\n    <ion-title>login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <ion-item no-lines no-padding text-wrap text-center style="background-color:#D4D8D8;">\n    <img src="./assets/imgs/crea8_logo.png" style="width: 70%;">\n    <p>\n      <ion-icon name="quote"></ion-icon>\n      <span style="font-size: 16px"> For the community, By the community </span>\n      <ion-icon name="quote"></ion-icon>\n      <ion-icon name="md-close" (click)="dismiss()" style="float:right;margin-right:10px"></ion-icon>\n    </p>\n  </ion-item>\n  <ion-segment [(ngModel)]="option" color="dark" (ionChange)="changeOption()">\n    <ion-segment-button value="1" >\n      LOG IN\n    </ion-segment-button>\n    <ion-segment-button value="2" >\n      Continue as Guest\n    </ion-segment-button>\n  </ion-segment>\n  <ion-list padding style="border-top: none;" *ngIf="option==1">\n    <ion-item text-wrap text-center no-lines>\n      <p style="font-size: 20px;margin-bottom: 8%;padding-bottom: 1%;">Sign In</p>\n      <p>Do Not Have Account ? Click <a (click)="signUpModal()">Sign Up</a> To Registration.</p>      \n    </ion-item>\n    <ion-item style="padding-left:0">\n      <ion-label stacked>Email</ion-label>\n      <ion-input type="email" placeholder="Enter the email ID" [(ngModel)]="loginData.email"></ion-input>\n    </ion-item>\n    <ion-item style="padding-left:0">\n      <ion-label stacked>Password</ion-label>\n      <ion-input type="password" placeholder="Enter your password" [(ngModel)]="loginData.password"></ion-input>\n    </ion-item>\n    <br/>\n    <button ion-button large full (click)="login()" color="dark" icon-left>\n      <ion-icon name="log-in"></ion-icon>\n      <span>Log in</span>\n    </button>\n  </ion-list>\n</ion-content>\n'/*ion-inline-end:"D:\ionic-3\cre8comm\src\pages\login\login.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ViewController */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ViewController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ViewController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* Events */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* Events */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_2__providers_session_service_session_service__["a" /* SessionService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_session_service_session_service__["a" /* SessionService */]) === "function" && _e || Object])
     ], LoginPage);
     return LoginPage;
+    var _a, _b, _c, _d, _e;
 }());
 
 //# sourceMappingURL=login.js.map
@@ -555,6 +607,7 @@ var RegisterPage = /** @class */ (function () {
         this.view.dismiss("Sign up closed");
     };
     RegisterPage.prototype.signUp = function () {
+        var _this = this;
         if (!this.signupData.name) {
             this.service.showToastMessage('Please enter your first name');
             return;
@@ -567,8 +620,8 @@ var RegisterPage = /** @class */ (function () {
             this.service.showToastMessage('Please select your gender');
             return;
         }
-        if (!this.signupData.phone) {
-            this.service.showToastMessage('Please enter your mobile number');
+        if ((!this.signupData.phone) || (this.signupData.phone.length != 10)) {
+            this.service.showToastMessage('Please enter a valid mobile number');
             return;
         }
         if (!this.signupData.community) {
@@ -607,22 +660,44 @@ var RegisterPage = /** @class */ (function () {
             this.service.showToastMessage('Please check term and condition');
             return;
         }
-        /*this.service.createUser(this.signupData)
-        .subscribe((data)=>{
-          this.service.showToastMessage("Successfully Add User");
-          console.log("Data==="+data);
-        },(err)=>{
-          console.log("err==="+err);
-          this.service.showToastMessage("Please Try Again");
-        })*/
+        this.loader = true;
+        this.service.createUser(this.signupData)
+            .subscribe(function (data) {
+            _this.loader = false;
+            _this.service.showToastMessage("Registraion Success . . .");
+            _this.view.dismiss("success");
+            console.log("Data===" + JSON.stringify(data));
+        }, function (err) {
+            // this.loader=false;
+            console.log("err===" + JSON.stringify(err));
+            _this.service.showToastMessage("Please Try Again");
+        });
+    };
+    RegisterPage.prototype.validatePhone = function () {
+        var _this = this;
+        if (isNaN(this.signupData.phone)) {
+            var phoneTimeout = setTimeout(function () {
+                _this.signupData.phone = '';
+            }, 100);
+            this.service.showToastMessage("Please enter valid number...");
+            return;
+        }
+        else {
+            if (this.signupData.phone.length > 10) {
+                var phoneTimeout = setTimeout(function () {
+                    _this.signupData.phone = _this.signupData.phone.slice(0, 10);
+                }, 100);
+            }
+        }
     };
     RegisterPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-home',template:/*ion-inline-start:"D:\ionic-3\cre8comm\src\pages\register\register.html"*/'<ion-header>\n  <ion-navbar color="danger">\n    <ion-title>Sign Up</ion-title>\n    <ion-buttons end>\n      <button ion-button icon-only color="danger" (click)="dismiss()">\n        <ion-icon name="close-circle"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content scroll="true" padding>\n  <ion-list>\n    <ion-item style="border-top:none;">\n      <ion-label stacked>Name</ion-label>\n      <ion-input placeholder="Enter Name" [(ngModel)]="signupData.name" type="text"></ion-input>\n    </ion-item> \n\n    <ion-item>\n      <ion-label stacked>Last Name</ion-label>\n      <ion-input placeholder="Enter Name" [(ngModel)]="signupData.surname" type="text"></ion-input>\n    </ion-item>    \n    <ion-item>\n      <p style="font-size: medium;">\n        <span style="margin-right: 10%;">Gender</span>\n        <input type="radio" value="Male" [(ngModel)]="signupData.gender"> Male\n        <input type="radio" value="Female" [(ngModel)]="signupData.gender"> Female\n      </p>\n    </ion-item>    \n    <ion-item>\n      <ion-label stacked>Phone</ion-label>\n      <ion-input placeholder="Enter Phone" [(ngModel)]="signupData.phone" type="phone"></ion-input>\n    </ion-item> \n    <ion-item>\n      <ion-label stacked>Select Community</ion-label>\n      <ion-select [(ngModel)]="signupData.community" >\n        <ion-option *ngFor="let community of communities" [value]="community.id">{{community.name}}</ion-option>\n      </ion-select>\n    </ion-item>\n    <ion-item>\n      <ion-label stacked>Select Country</ion-label>\n      <ion-select [(ngModel)]="signupData.country_id" (ngModelChange)="getStates($event)">\n        <ion-option *ngFor="let country of countries" [value]="country.id">{{country.name}}</ion-option>\n      </ion-select>\n    </ion-item>\n    <ion-item *ngIf="stateFound">\n      <ion-label stacked>Select State</ion-label>\n      <ion-select [(ngModel)]="signupData.state_id" (ngModelChange)="getCities($event)">\n        <ion-option *ngFor="let state of states" [value]="state.id">{{state.name}}</ion-option>\n      </ion-select>\n    </ion-item>\n    <ion-item *ngIf="cityFound">\n      <ion-label stacked>Select City</ion-label>\n      <ion-select [(ngModel)]="signupData.district_id">\n        <ion-option *ngFor="let city of cities" [value]="city.id">{{city.name}}</ion-option>\n      </ion-select>\n    </ion-item>   \n    <ion-item>\n      <ion-label stacked>Email</ion-label>\n      <ion-input placeholder="Enter Email" [(ngModel)]="signupData.email" type="email"></ion-input>\n    </ion-item>    \n    <ion-item>\n      <ion-label stacked>Password</ion-label>\n      <ion-input placeholder="Enter Password" [(ngModel)]="signupData.password" type="password"></ion-input>\n    </ion-item> \n    <ion-item>\n      <ion-label stacked>Confirm Password</ion-label>\n      <ion-input placeholder="Confirm your password" [(ngModel)]="signupData.cPassword" type="text"></ion-input>\n    </ion-item><br/>\n    <ion-item text-wrap>\n      <ion-label>I have read & agree to the T&C and Privacy Policy</ion-label>\n      <ion-checkbox color="danger" [(ngModel)]="signupData.termAndCondition"></ion-checkbox>\n    </ion-item><br/> \n    <ion-item text-wrap>\n      <ion-label>I want other communities to connect with me </ion-label>\n      <ion-checkbox color="danger" [(ngModel)]="signupData.open_to_connect"></ion-checkbox>\n    </ion-item><br/>\n    <Button ion-button full large color="danger" (click)="signUp()">Submit</Button>\n    <br/><br/>\n  </ion-list>  \n</ion-content>'/*ion-inline-end:"D:\ionic-3\cre8comm\src\pages\register\register.html"*/
+            selector: 'page-home',template:/*ion-inline-start:"D:\ionic-3\cre8comm\src\pages\register\register.html"*/'<ion-header>\n  <ion-navbar color="danger">\n    <ion-title>Sign Up</ion-title>\n    <ion-buttons end>\n      <button ion-button icon-only color="danger" (click)="dismiss()">\n        <ion-icon name="close-circle"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content scroll="true" padding>\n  <ion-list [hidden]="!loader" no-padding no-margin no-lines>\n    <br/><br/><br/><br/><br/><br/><br/>\n    <ion-item text-center no-lines>\n      <ion-spinner icon="dots"></ion-spinner>\n    </ion-item>\n  </ion-list>\n  <ion-list [hidden]="loader">\n    <ion-item style="border-top:none;" no-padding>\n      <ion-label stacked>Name</ion-label>\n      <ion-input placeholder="Enter Name" [(ngModel)]="signupData.name" type="text"></ion-input>\n    </ion-item>\n    <ion-item no-padding>\n      <ion-label stacked>Last Name</ion-label>\n      <ion-input placeholder="Enter Name" [(ngModel)]="signupData.surname" type="text"></ion-input>\n    </ion-item>    \n    <ion-item no-padding>\n      <p style="font-size: medium;">\n        <span style="margin-right: 10%;">Gender</span>\n        <input type="radio" value="Male" [(ngModel)]="signupData.gender"> Male\n        <input type="radio" value="Female" [(ngModel)]="signupData.gender"> Female\n      </p>\n    </ion-item>    \n    <ion-item no-padding>\n      <ion-label stacked>Phone</ion-label>\n      <ion-input placeholder="Enter Phone" [(ngModel)]="signupData.phone" type="text" \n      (ngModelChange)="validatePhone()"></ion-input>\n    </ion-item> \n    <ion-item no-padding>\n      <ion-label stacked>Select Community</ion-label>\n      <ion-select [(ngModel)]="signupData.community" placeholder="Select">\n        <ion-option *ngFor="let community of communities" [value]="community.id">{{community.name}}</ion-option>\n      </ion-select>\n    </ion-item>\n    <ion-item no-padding>\n      <ion-label stacked>Select Country</ion-label>\n      <ion-select [(ngModel)]="signupData.country_id" (ngModelChange)="getStates($event)"\n      placeholder="Select">\n        <ion-option *ngFor="let country of countries" [value]="country.id">{{country.name}}</ion-option>\n      </ion-select>\n    </ion-item>\n    <ion-item *ngIf="stateFound" no-padding>\n      <ion-label stacked>Select State</ion-label>\n      <ion-select [(ngModel)]="signupData.state_id" (ngModelChange)="getCities($event)"\n      placeholder="Select">\n        <ion-option *ngFor="let state of states" [value]="state.id">{{state.name}}</ion-option>\n      </ion-select>\n    </ion-item>\n    <ion-item *ngIf="cityFound" no-padding>\n      <ion-label stacked>Select City</ion-label>\n      <ion-select [(ngModel)]="signupData.district_id" placeholder="Select">\n        <ion-option *ngFor="let city of cities" [value]="city.id">{{city.name}}</ion-option>\n      </ion-select>\n    </ion-item>   \n    <ion-item no-padding>\n      <ion-label stacked>Email</ion-label>\n      <ion-input placeholder="Enter Email" [(ngModel)]="signupData.email" type="email"></ion-input>\n    </ion-item>    \n    <ion-item no-padding>\n      <ion-label stacked>Password</ion-label>\n      <ion-input placeholder="Enter Password" [(ngModel)]="signupData.password" type="password"></ion-input>\n    </ion-item> \n    <ion-item no-padding>\n      <ion-label stacked>Confirm Password</ion-label>\n      <ion-input placeholder="Confirm your password" [(ngModel)]="signupData.cPassword" type="text"></ion-input>\n    </ion-item><br/>\n    <ion-item text-wrap no-padding>\n      <ion-label>I have read & agree to the T&C and Privacy Policy</ion-label>\n      <ion-checkbox color="danger" [(ngModel)]="signupData.termAndCondition"></ion-checkbox>\n    </ion-item><br/> \n    <ion-item text-wrap no-padding>\n      <ion-label>I want other communities to connect with me </ion-label>\n      <ion-checkbox color="danger" [(ngModel)]="signupData.open_to_connect"></ion-checkbox>\n    </ion-item><br/>\n    <Button ion-button full large color="danger" (click)="signUp()">Submit</Button>\n    <br/><br/>\n  </ion-list>  \n</ion-content>'/*ion-inline-end:"D:\ionic-3\cre8comm\src\pages\register\register.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_session_service_session_service__["a" /* SessionService */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ViewController */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__providers_session_service_session_service__["a" /* SessionService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_session_service_session_service__["a" /* SessionService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ViewController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ViewController */]) === "function" && _b || Object])
     ], RegisterPage);
     return RegisterPage;
+    var _a, _b;
 }());
 
 //# sourceMappingURL=register.js.map
@@ -784,7 +859,8 @@ var AppModule = /** @class */ (function () {
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
-                __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["d" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* MyApp */], { mode: 'ios' }, {
+                // IonicModule.forRoot(MyApp,{mode:'ios'}),
+                __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["d" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* MyApp */], {}, {
                     links: [
                         { loadChildren: '../pages/about/about.module#AboutPageModule', name: 'AboutPage', segment: 'about', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/contact-us/contact-us.module#ContactUsPageModule', name: 'ContactUsPage', segment: 'contact-us', priority: 'low', defaultHistory: [] },
@@ -830,6 +906,7 @@ var AppModule = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_product_list_product_list__ = __webpack_require__(150);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_about_about__ = __webpack_require__(151);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_contact_us_contact_us__ = __webpack_require__(152);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__providers_session_service_session_service__ = __webpack_require__(135);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -849,9 +926,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var MyApp = /** @class */ (function () {
-    function MyApp(platform, statusBar, splashScreen, events, modal) {
+    function MyApp(platform, statusBar, service, splashScreen, events, modal) {
         var _this = this;
+        this.service = service;
         this.events = events;
         this.modal = modal;
         this.pages = [];
@@ -861,6 +940,7 @@ var MyApp = /** @class */ (function () {
         this.user = {};
         this.loginOpened = false;
         this.signupOpened = false;
+        this.signup = false;
         events.subscribe('landing:data:fetched', function (communitiesData, locations) {
             // user and time are the same arguments passed in `events.publish(user, time)`
             _this.communities = communitiesData;
@@ -889,6 +969,11 @@ var MyApp = /** @class */ (function () {
         if (localStorage.location) {
             this.user.location = JSON.parse(localStorage.location);
         }
+        if (JSON.parse(localStorage.user)) {
+            localStorage.user = JSON.parse(localStorage.user);
+            this.user = localStorage.user;
+        }
+        // this.openRegister();
         platform.ready().then(function () {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
@@ -926,12 +1011,15 @@ var MyApp = /** @class */ (function () {
         if (page.component) {
             this.nav.setRoot(page.component);
         }
-        else if (page.id == 6) {
-            // this.openLogin();
-            this.openRegister();
-            /*localStorage.user=null;
-            this.pages[5].title='Login';
-            this.pages[5].icon='log-in';*/
+        else if ((page.id == 6) && !(localStorage.user)) {
+            // this.openRegister();
+            this.openLogin();
+        }
+        else {
+            this.openLogin();
+            localStorage.user = null;
+            this.pages[5].title = 'Login';
+            this.pages[5].icon = 'log-in';
             // localStorage.clear();
             // this.nav.setRoot(LandingPage);
         }
@@ -946,38 +1034,50 @@ var MyApp = /** @class */ (function () {
             this.user.location = item;
         }
         this.events.publish('landing:data:changed');
-        /*console.log("page id is :---"+pageId);
-        console.log("item is :---"+item);*/
     };
     MyApp.prototype.openLogin = function () {
         var _this = this;
         var loginModal = this.modal.create(__WEBPACK_IMPORTED_MODULE_5__pages_login_login__["a" /* LoginPage */], { userId: 8675309 });
-        loginModal.onDidDismiss(function (data) {
-            console.log(data);
-            if (data === 2) {
+        loginModal.onDidDismiss(function (response) {
+            console.log(response);
+            if (response === 2) {
                 _this.openRegister();
+            }
+            else {
+                _this.user = response.data;
+                localStorage.user = response.data;
+                localStorage.user.token = response.token;
+                _this.service.setUser(localStorage.user);
+                if (!_this.signup) {
+                    _this.service.showToastMessage(response.data.message);
+                }
+                _this.events.publish('get:login');
             }
         });
         loginModal.present();
     };
     MyApp.prototype.openRegister = function () {
+        var _this = this;
         var registerModal = this.modal.create(__WEBPACK_IMPORTED_MODULE_4__pages_register_register__["a" /* RegisterPage */], { userId: 8675309 });
         registerModal.onDidDismiss(function (data) {
+            if (data === "success") {
+                _this.openLogin();
+            }
             console.log(data);
         });
         registerModal.present();
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])('myNav'),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* Nav */])
+        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* Nav */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* Nav */]) === "function" && _a || Object)
     ], MyApp.prototype, "nav", void 0);
     MyApp = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"D:\ionic-3\cre8comm\src\app\app.html"*/'\n\n<ion-menu  [content]="content">\n\n  <ion-header>\n\n    <!-- <ion-toolbar>\n\n      <ion-title>Menu</ion-title>\n\n    </ion-toolbar> -->\n\n  </ion-header>\n\n\n\n  <ion-content>\n\n    <ion-list>\n\n      <ion-item no-padding text-wrap *ngFor="let p of pages;let i=index">\n\n        <button ion-item no-lines (click)="openPage(p)" detail-none style="    padding-right: 10px;" menuClose>\n\n          <ion-icon name="{{p.icon}}" item-start color="danger"></ion-icon>\n\n            <h3>{{p.title}}</h3>\n\n            <p *ngIf="p.id==2">{{user.community.name}}</p>\n\n            <p *ngIf="p.id==3">{{user.location.name}}</p>\n\n          <ion-icon [name]="p.toogle ? \'arrow-up\' : \'arrow-down\'" item-end *ngIf="p.id==2 || p.id==3" (click)="openSlide(i);$event.stopPropagation()" color="danger"></ion-icon>\n\n        </button>\n\n        <ion-list class="menu-list" *ngIf="p.toogle && p.array" no-margin style="padding-left: 37px;">\n\n          <button ion-item *ngFor="let item of p.array; let j = index" detail-none class="child-item" text-wrap (click)="setStorage(p.id,item)" menuClose>\n\n            <h2>{{ item.name }}</h2>\n\n          </button>\n\n        </ion-list>\n\n      </ion-item>\n\n    </ion-list>\n\n  </ion-content>\n\n</ion-menu>\n\n<ion-nav [root]="rootPage" #content swipeBackEnabled="false" #myNav></ion-nav>'/*ion-inline-end:"D:\ionic-3\cre8comm\src\app\app.html"*/
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"D:\ionic-3\cre8comm\src\app\app.html"*/'\n\n<ion-menu  [content]="content">\n\n  <ion-header>\n\n    <!-- <ion-toolbar>\n\n      <ion-title>Menu</ion-title>\n\n    </ion-toolbar> -->\n\n  </ion-header>\n\n\n\n  <ion-content>\n\n    <ion-list>\n\n      <ion-item text-wrap text-center no-margin style="background: #990100;">\n\n        <img src="assets/imgs/tree.png" style="height:120px">\n\n        <h3 class="title" style="font-size:17px;color:cornsilk;"> Welcome Guest\n\n        </h3>\n\n      </ion-item>\n\n      <ion-item no-padding text-wrap *ngFor="let p of pages;let i=index">\n\n        <button ion-item no-lines (click)="openPage(p)" detail-none style="    padding-right: 10px;" menuClose>\n\n          <ion-icon name="{{p.icon}}" item-start color="danger"></ion-icon>\n\n            <h3>{{p.title}}</h3>\n\n            <p *ngIf="p.id==2">{{user.community.name}}</p>\n\n            <p *ngIf="p.id==3">{{user.location.name}}</p>\n\n          <ion-icon [name]="p.toogle ? \'arrow-up\' : \'arrow-down\'" item-end *ngIf="p.id==2 || p.id==3" (click)="openSlide(i);$event.stopPropagation()" color="danger"></ion-icon>\n\n        </button>\n\n        <ion-list class="menu-list" *ngIf="p.toogle && p.array" no-margin style="padding-left: 37px;">\n\n          <button ion-item *ngFor="let item of p.array; let j = index" detail-none class="child-item" text-wrap (click)="setStorage(p.id,item)" menuClose>\n\n            <h2>{{ item.name }}</h2>\n\n          </button>\n\n        </ion-list>\n\n      </ion-item>\n\n    </ion-list>\n\n  </ion-content>\n\n</ion-menu>\n\n<ion-nav [root]="rootPage" #content swipeBackEnabled="false" #myNav></ion-nav>'/*ion-inline-end:"D:\ionic-3\cre8comm\src\app\app.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */],
-            __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* Events */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* ModalController */]])
+        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* Platform */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* Platform */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_10__providers_session_service_session_service__["a" /* SessionService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__providers_session_service_session_service__["a" /* SessionService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* Events */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* Events */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* ModalController */]) === "function" && _g || Object])
     ], MyApp);
     return MyApp;
+    var _a, _b, _c, _d, _e, _f, _g;
 }());
 
 //# sourceMappingURL=app.component.js.map
